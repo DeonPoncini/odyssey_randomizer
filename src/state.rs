@@ -1,26 +1,26 @@
-use std::collections::HashSet;
+use std::collections::{HashSet, HashMap};
 
 use rand::{thread_rng, Rng};
 
-use crate::kingdom::{Kingdoms, KingdomID};
+use crate::kingdom::{Kingdoms, KingdomName};
 use crate::moon::MoonID;
 
 pub struct State {
-    current_kingdom: KingdomID,
+    current_kingdom: KingdomName,
     total_kingdom_moons: u16,
     total_moons: u16,
     moons_to_schedule: Vec<MoonID>,
     moons_ordered: Vec<MoonID>,
     moons_scheduled: HashSet<MoonID>,
-    kingdoms_to_schedule: Vec<KingdomID>,
-    kingdoms_ordered: Vec<KingdomID>,
-    kingdoms_scheduled: HashSet<KingdomID>,
+    kingdoms_to_schedule: Vec<KingdomName>,
+    kingdoms_ordered: Vec<KingdomName>,
+    kingdoms_scheduled: HashMap<KingdomName, u8>,
 }
 
 impl State {
     pub fn new() -> Self {
         State {
-            current_kingdom: 0,
+            current_kingdom: KingdomName::Cap,
             total_kingdom_moons: 0,
             total_moons: 600,
             moons_to_schedule: Vec::new(),
@@ -28,7 +28,7 @@ impl State {
             moons_scheduled: HashSet::new(),
             kingdoms_to_schedule: Vec::new(),
             kingdoms_ordered: Vec::new(),
-            kingdoms_scheduled: HashSet::new(),
+            kingdoms_scheduled: HashMap::new(),
         }
     }
 
@@ -38,7 +38,7 @@ impl State {
         }
     }
 
-    pub fn add_kingdom_to_schedule(&mut self, id: KingdomID) {
+    pub fn add_kingdom_to_schedule(&mut self, id: KingdomName) {
         self.kingdoms_to_schedule.push(id);
     }
 
@@ -53,11 +53,15 @@ impl State {
         let id = self.kingdoms_to_schedule.remove(random);
         // schedule it
         self.kingdoms_ordered.push(id);
-        self.kingdoms_scheduled.insert(id);
+        // update how many times we scheduled this
+        match self.kingdoms_scheduled.get_mut(&id) {
+            Some(v) => *v += 1,
+            None => { self.kingdoms_scheduled.insert(id, 1); }
+        }
         true
     }
 
-    pub fn current_kingdom(&self) -> KingdomID {
+    pub fn current_kingdom(&self) -> KingdomName {
         self.current_kingdom
     }
 
@@ -73,7 +77,10 @@ impl State {
         self.moons_scheduled.contains(&moon)
     }
 
-    pub fn kingdom_scheduled(&self, kingdom: KingdomID) -> bool {
-        self.kingdoms_scheduled.contains(&kingdom)
+    pub fn kingdom_scheduled(&self, kingdom: KingdomName, visited: u8) -> bool {
+        match self.kingdoms_scheduled.get(&kingdom) {
+            Some(v) => *v >= visited,
+            None => false,
+        }
     }
 }

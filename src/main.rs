@@ -1,7 +1,7 @@
 use std::collections::{HashSet, VecDeque};
 
 use crate::state::State;
-use crate::kingdom::Kingdoms;
+use crate::kingdom::{KingdomName, Kingdoms};
 
 mod kingdom;
 mod moon;
@@ -16,7 +16,7 @@ fn main() {
     let mut unscheduleable = HashSet::new();
     let mut scheduled = HashSet::new(); // TODO: this is temporary
 
-    queue.push_back(0);
+    queue.push_back(KingdomName::Cap);
     while !queue.is_empty() {
         let id = queue.pop_front().unwrap();
         // if its available, add it to the kingdoms to be scheduled
@@ -40,9 +40,14 @@ fn main() {
             unscheduleable.insert(id);
         }
         // add all the next kingdoms to the list
-        for k in kingdoms.kingdom(id).next() {
-            if !scheduled.contains(k) {
-                queue.push_back(*k);
+        // once the scheduled contains mushroom, we can just pick all every time
+        if scheduled.contains(&KingdomName::Mushroom) {
+            // we can add them all
+        } else {
+            for k in kingdoms.kingdom(id).next() {
+                if !scheduled.contains(k) {
+                    queue.push_back(*k);
+                }
             }
         }
     }
