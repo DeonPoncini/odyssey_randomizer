@@ -1,7 +1,8 @@
-use std::collections::{HashSet, VecDeque};
+use rand::{thread_rng, Rng};
 
 use crate::state::State;
 use crate::kingdom::{KingdomName, Kingdoms};
+use crate::moon::Moons;
 
 mod kingdom;
 mod moon;
@@ -9,53 +10,51 @@ mod state;
 
 fn main() {
     let mut state = State::new();
-    let mut kingdoms = Kingdoms::new();
+    let kingdoms = Kingdoms::new();
+    let mut moons = Moons::new();
 
-    // schedule all kingdoms
-    let mut queue = VecDeque::new();
-    let mut unscheduleable = HashSet::new();
-    let mut scheduled = HashSet::new(); // TODO: this is temporary
-
-    queue.push_back(KingdomName::Cap);
-    while !queue.is_empty() {
-        let id = queue.pop_front().unwrap();
-        // if its available, add it to the kingdoms to be scheduled
-        if kingdoms.kingdom(id).available(&state) {
-            unscheduleable.remove(&id);
-            if !scheduled.contains(&id) {
-                scheduled.insert(id);
-                state.add_kingdom_to_schedule(id);
-            }
-        } else {
-            // if we tried to schedule this before and failed
-            // we have returned to it again, so let's schedule a kingdom
-            if unscheduleable.contains(&id) {
-                if !state.schedule_kingdom() {
-                    println!("This configuration cannot be scheduled");
-                    return;
-                }
-            }
-            // push it back to process again later
-            queue.push_back(id);
-            unscheduleable.insert(id);
+    loop {
+        // first, find all moons that can be scheduled
+        let available = moons.return_available(&mut state);
+        for a in &available {
+            state.add_moon_to_schedule(*a);
         }
-        // add all the next kingdoms to the list
-        // once the scheduled contains mushroom, we can just pick all every time
-        if scheduled.contains(&KingdomName::Mushroom) {
-            // we can add them all
+        // schedule a random count trying to be enough to leave
+        let exit_count;
+        if state.completed_main_game() {
+            exit_count = 1;
         } else {
-            for k in kingdoms.kingdom(id).next() {
-                if !scheduled.contains(k) {
-                    queue.push_back(*k);
-                }
+            exit_count = kingdoms.kingdom(state.current_kingdom())
+                .moons_to_leave();
+        }
+        let exit_count = std::cmp::min(exit_count as usize, available.len());
+        let scheduled;
+        if exit_count == available.len() {
+            scheduled = exit_count;
+        } else {
+            scheduled = thread_rng().gen_range(exit_count, available.len());
+        }
+        if scheduled == 0 {
+            state.next_kingdom(&kingdoms);
+
+            // schedule the next kingdom
+            if !state.schedule_kingdom() {
+                // no more moons and no more kingdoms, we are done
+                break;
             }
+        } else {
+            // schedule the moons
+            for _ in 0..scheduled {
+               state.schedule_moon(&moons);
+            }
+            // leave for the next kingdom
+            state.next_kingdom(&kingdoms);
+            // this will do nothing if we don't have enough moons to leave
+            state.schedule_kingdom();
         }
     }
 
-    // schedule everything that is unscheduled
-    while state.schedule_kingdom() {}
-
-    // print out the schedule
-    state.print_schedule(&kingdoms);
+    // print out the moons
+    state.print_moons(&kingdoms, &moons);
 }
 

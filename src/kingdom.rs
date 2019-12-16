@@ -1,4 +1,3 @@
-use crate::moon::MoonID;
 use crate::state::State;
 
 #[derive(Clone, Copy, Eq, Hash, PartialEq)]
@@ -58,12 +57,8 @@ impl Kingdom {
         &self.next_kingdoms
     }
 
-    pub fn can_leave(&self, state: &State) -> bool {
-        // available if kingdom moons is enough
-        if state.total_kingdom_moons() < self.moons_to_leave {
-            return false;
-        }
-        true
+    pub fn moons_to_leave(&self) -> u16 {
+        self.moons_to_leave
     }
 
     pub fn available(&self, state: &State) -> bool {
