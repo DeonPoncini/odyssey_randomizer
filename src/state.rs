@@ -23,9 +23,9 @@ pub struct State {
 impl State {
     pub fn new() -> Self {
         State {
-            current_kingdom: KingdomName::Cap,
+            current_kingdom: KingdomName::Darker,
             total_kingdom_moons: 0,
-            total_moons: 600,
+            total_moons: 0,
             moons_to_schedule: Vec::new(),
             moons_stored_queue: HashMap::new(),
             moons_ordered: Vec::new(),
@@ -153,7 +153,9 @@ impl State {
                 return;
             }
             for k in kingdoms.kingdom(self.current_kingdom).next() {
-                self.add_kingdom_to_schedule(*k);
+                if kingdoms.kingdom(*k).available(&self) {
+                    self.add_kingdom_to_schedule(*k);
+                }
             }
         }
     }

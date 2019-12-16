@@ -1,7 +1,7 @@
 use rand::{thread_rng, Rng};
 
 use crate::state::State;
-use crate::kingdom::Kingdoms;
+use crate::kingdom::{KingdomName, Kingdoms};
 use crate::moon::Moons;
 
 mod kingdom;
@@ -13,6 +13,10 @@ fn main() {
     let kingdoms = Kingdoms::new();
     let mut moons = Moons::new();
     let mut leave_chance = 1;
+
+    // start up the first kingdom
+    state.add_kingdom_to_schedule(KingdomName::Cap);
+    state.schedule_kingdom();
 
     loop {
         // first, find all moons that can be scheduled
