@@ -38,10 +38,14 @@ impl State {
 
     pub fn print_moons(&self, kingdoms: &Kingdoms, moons: &Moons) {
         let mut x = 0;
+        let mut current_kingdom = KingdomName::Cap;
         for m in &self.moons_ordered {
-            println!("{}.\t{}\t{}", x,
-                     kingdoms.kingdom(moons.moon(*m).kingdom()).name(),
-                     moons.moon(*m).name());
+            if moons.moon(*m).kingdom() != current_kingdom {
+                println!("==={}===",
+                     kingdoms.kingdom(moons.moon(*m).kingdom()).name());
+                current_kingdom = moons.moon(*m).kingdom();
+            }
+            println!("{}.\t{}", x, moons.moon(*m).name());
             x += 1;
         }
     }

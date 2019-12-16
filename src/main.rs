@@ -1,7 +1,7 @@
 use rand::{thread_rng, Rng};
 
 use crate::state::State;
-use crate::kingdom::{KingdomName, Kingdoms};
+use crate::kingdom::Kingdoms;
 use crate::moon::Moons;
 
 mod kingdom;
