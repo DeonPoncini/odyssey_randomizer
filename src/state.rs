@@ -47,8 +47,13 @@ impl State {
                      kingdoms.kingdom(moons.moon(*m).kingdom()).name());
                 current_kingdom = moons.moon(*m).kingdom();
             }
-            println!("{}.\t{}", x, moons.moon(*m).name());
-            x += 1;
+            let count = moons.moon(*m).count();
+            if count > 1 {
+                println!("{}.\t{} ({})", x, moons.moon(*m).name(), count);
+            } else {
+                println!("{}.\t{}", x, moons.moon(*m).name());
+            }
+            x += count;
         }
     }
 
