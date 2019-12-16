@@ -273,7 +273,6 @@ impl Moons {
         // TODO: depends on snow and seaside moons - add that constraint
         let cascade19 = moons.len();
         moons.push(Moon::new("A Tourist in the Cascade Kingdom", KingdomName::Cascade));
-        // TODO: depends on metro kingdom tourist moon
         let cascade20 = moons.len();
         moons.push(Moon::new("Rolling Rock by the Falls", KingdomName::Cascade));
         moons[cascade20].add_prereq_kingdom_count(KingdomName::Cascade, 2);
@@ -459,7 +458,6 @@ impl Moons {
         let sand62 = moons.len();
         moons.push(Moon::new("Secret Path to Tostarena!", KingdomName::Sand));
         moons[sand62].add_prereq_kingdom(KingdomName::Lake);
-        // TODO: requires wooded kingdom story moon
         let sand64 = moons.len();
         moons.push(Moon::new("Jammin' in the Sand Kingdom", KingdomName::Sand));
         moons[sand64].add_prereq_kingdom(KingdomName::Mushroom);
@@ -645,6 +643,7 @@ impl Moons {
         let wooded2 = moons.len();
         moons.push(Moon::new_multi("Flower Thieves of Sky Garden", KingdomName::Wooded));
         moons[wooded2].add_prereq_moon(wooded1);
+        moons[sand62].add_prereq_moon(wooded2);
         let wooded3 = moons.len();
         moons.push(Moon::new("Path to the Secret Flower Field", KingdomName::Wooded));
         moons[wooded3].add_prereq_moon(wooded2);
@@ -1087,6 +1086,7 @@ impl Moons {
         moons[metro52].add_prereq_moon(metro7);
         moons[metro52].add_prereq_moon(sand4);
         moons[metro53].add_prereq_moon(metro1);
+        moons[cascade19].add_prereq_moon(metro52);
         let metro54 = moons.len();
         moons.push(Moon::new("Bird Traveling the City", KingdomName::Metro));
         moons[metro54].add_prereq_kingdom(KingdomName::Mushroom);
@@ -1191,6 +1191,7 @@ impl Moons {
         moons[snow5].add_prereq_moon(snow2);
         moons[snow5].add_prereq_moon(snow3);
         moons[snow5].add_prereq_moon(snow4);
+        moons[cascade18].add_prereq_moon(snow5);
         moons.push(Moon::new("Entrance to Shiveria", KingdomName::Snow));
         moons.push(Moon::new("Behind Snowy Mountain", KingdomName::Snow));
         moons.push(Moon::new("Shining in the Snow in Town", KingdomName::Snow));
