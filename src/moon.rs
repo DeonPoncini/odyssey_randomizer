@@ -823,7 +823,36 @@ impl Moons {
         offset.push((wooded1, moons.len()));
 
         // cloud kingdom
-        offset.push((0, 0));
+        let cloud1 = moons.len();
+        moons.push(Moon::new("Picture Match: Basically a Goomba", KingdomName::Cloud));
+        moons[cloud1].add_prereq_kingdom(KingdomName::Lost);
+        moons[cloud1].add_prereq_kingdom_count(KingdomName::Cloud, 2);
+        let cloud2 = moons.len();
+        moons.push(Moon::new("Peach in the Cloud Kingdom", KingdomName::Cloud));
+        moons[cloud2].add_prereq_kingdom(KingdomName::Mushroom);
+        let cloud3 = moons.len();
+        moons.push(Moon::new("Digging in the...Cloud?", KingdomName::Cloud));
+        moons[cloud3].add_prereq_kingdom(KingdomName::Mushroom);
+        let cloud4 = moons.len();
+        moons.push(Moon::new("High, High Above the Clouds", KingdomName::Cloud));
+        moons[cloud4].add_prereq_kingdom(KingdomName::Mushroom);
+        let cloud5 = moons.len();
+        moons.push(Moon::new("Crossing the Cloud Sea", KingdomName::Cloud));
+        moons[cloud5].add_prereq_kingdom(KingdomName::Mushroom);
+        let cloud6 = moons.len();
+        moons.push(Moon::new("Taking Notes: Up and Down", KingdomName::Cloud));
+        moons[cloud6].add_prereq_kingdom(KingdomName::Mushroom);
+        let cloud7 = moons.len();
+        moons.push(Moon::new("Picture Match: A Stellar Goomba", KingdomName::Cloud));
+        moons[cloud7].add_prereq_kingdom(KingdomName::Mushroom);
+        moons[cloud7].add_prereq_moon(cloud1);
+        let cloud8 = moons.len();
+        moons.push(Moon::new("King of the Cube!", KingdomName::Cloud));
+        moons[cloud8].add_prereq_kingdom(KingdomName::Mushroom);
+        let cloud9 = moons.len();
+        moons.push(Moon::new("The Sixth Face", KingdomName::Cloud));
+        moons[cloud9].add_prereq_kingdom(KingdomName::Mushroom);
+        offset.push((cloud1, moons.len()));
 
         // lost kingdom
         offset.push((0, 0));
