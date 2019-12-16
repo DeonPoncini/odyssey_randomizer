@@ -10,6 +10,7 @@ pub struct State {
     total_kingdom_moons: u16,
     total_moons: u16,
     moons_to_schedule: Vec<MoonID>,
+    moons_stored_queue: HashMap<KingdomName, Vec<MoonID>>,
     moons_ordered: Vec<MoonID>,
     moons_scheduled: HashSet<MoonID>,
     kingdoms_to_schedule: Vec<KingdomName>,
@@ -26,6 +27,7 @@ impl State {
             total_kingdom_moons: 0,
             total_moons: 600,
             moons_to_schedule: Vec::new(),
+            moons_stored_queue: HashMap::new(),
             moons_ordered: Vec::new(),
             moons_scheduled: HashSet::new(),
             kingdoms_to_schedule: Vec::new(),
@@ -73,6 +75,19 @@ impl State {
             Some(v) => *v += 1,
             None => { self.kingdoms_scheduled.insert(id, 1); }
         }
+        // if we have moons in the queue, back them up
+        match self.moons_stored_queue.get_mut(&self.current_kingdom) {
+            Some(v) => {
+                v.extend(&self.moons_to_schedule);
+                self.moons_to_schedule.clear();
+            }
+            None => {
+                self.moons_stored_queue.insert(self.current_kingdom,
+                                               self.moons_to_schedule.clone());
+                self.moons_to_schedule.clear();
+            }
+        }
+
         // set the current schedule
         self.current_kingdom = id;
         self.total_kingdom_moons = 0;
@@ -80,6 +95,16 @@ impl State {
         if self.current_kingdom == KingdomName::Mushroom {
             self.completed_main_game = true;
         }
+        // if we have backed up moons, move them to the queue
+        match self.moons_stored_queue.get_mut(&self.current_kingdom) {
+            Some(v) => {
+                for vv in v {
+                    self.moons_to_schedule.push(*vv);
+                }
+            }
+            None => {}
+        }
+        self.moons_stored_queue.insert(self.current_kingdom, Vec::new());
         true
     }
 
