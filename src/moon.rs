@@ -341,7 +341,41 @@ impl Moons {
         offset.push((cascade1, moons.len()));
 
         // sand kingdom
-        offset.push((0, 0));
+        let sand1 = moons.len();
+        moons.push(Moon::new("Atop the Highest Tower", KingdomName::Sand));
+        let sand2 = moons.len();
+        moons.push(Moon::new("Moon Shards in the Sand", KingdomName::Sand));
+        moons[sand2].add_prereq_moon(sand1);
+        let sand3 = moons.len();
+        moons.push(Moon::new_multi("Showdown on the Inverted Pyramid", KingdomName::Sand));
+        moons[sand3].add_prereq_moon(sand2);
+        let sand4 = moons.len();
+        moons.push(Moon::new_multi("The Hole in the Desert", KingdomName::Sand));
+        moons[sand4].add_prereq_moon(sand3);
+        moons.push(Moon::new("Overlooking the Desert Town", KingdomName::Sand));
+        moons.push(Moon::new("Alcove in the Ruins", KingdomName::Sand));
+        moons.push(Moon::new("On the Leaning Pillar", KingdomName::Sand));
+        moons.push(Moon::new("Hidden Room in the Flowing Sands", KingdomName::Sand));
+        moons.push(Moon::new("Secret of the Mural", KingdomName::Sand));
+        let sand10 = moons.len();
+        moons.push(Moon::new("Secret of the Inverted Mural", KingdomName::Sand));
+        moons[sand10].add_prereq_moon(sand2);
+        moons.push(Moon::new("On Top of the Stone Archway", KingdomName::Sand));
+        moons.push(Moon::new("From a Crate in the Ruins", KingdomName::Sand));
+        moons.push(Moon::new("On the Lone Pillar", KingdomName::Sand));
+        let sand14 = moons.len();
+        moons.push(Moon::new("On the Statue's Tail", KingdomName::Sand));
+        moons[sand14].add_prereq_moon(sand2);
+        let sand15 = moons.len();
+        moons.push(Moon::new("Hang Your Hat on the Fountain", KingdomName::Sand));
+        moons[sand15].add_prereq_moon(sand4);
+        moons.push(Moon::new("Where the Birds Gather", KingdomName::Sand));
+        moons.push(Moon::new("Top of a Dune", KingdomName::Sand));
+        moons.push(Moon::new("Lost in the Luggage", KingdomName::Sand));
+        moons.push(Moon::new("Bullet Bill Breakthrough", KingdomName::Sand));
+
+
+        offset.push((sand1, moons.len()));
 
         // lake kingdom
         offset.push((0, 0));
