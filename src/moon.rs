@@ -102,18 +102,20 @@ impl Moons {
 
         // go from start to end, check availability
         let mut ret = Vec::new();
+        let mut swap_point = s;
         for x in s..e {
             let id = self.ids[x];
             if self.moons[id].available(&state) {
                 ret.push(id);
                 // swap x with start
-                self.ids[x] = self.ids[s];
-                self.ids[s] = id;
+                self.ids[x] = self.ids[swap_point];
+                self.ids[swap_point] = id;
+                swap_point += 1;
             }
         }
 
         // finally update start by the amount copied out
-        let new_s = s + ret.len();
+        let new_s = swap_point;
         self.offset[kingdom as usize] = (new_s, e);
         ret
     }

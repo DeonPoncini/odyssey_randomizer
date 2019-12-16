@@ -12,6 +12,7 @@ fn main() {
     let mut state = State::new();
     let kingdoms = Kingdoms::new();
     let mut moons = Moons::new();
+    let mut leave_chance = 1;
 
     loop {
         // first, find all moons that can be scheduled
@@ -47,10 +48,17 @@ fn main() {
             for _ in 0..scheduled {
                state.schedule_moon(&moons);
             }
-            // leave for the next kingdom
-            state.next_kingdom(&kingdoms);
-            // this will do nothing if we don't have enough moons to leave
-            state.schedule_kingdom();
+            // lets only leave with a 10% chance that increases 10% each time
+            let chance = thread_rng().gen_range(0, 10);
+            if chance < leave_chance {
+                leave_chance = 1;
+                // leave for the next kingdom
+                state.next_kingdom(&kingdoms);
+                // this will do nothing if we don't have enough moons to leave
+                state.schedule_kingdom();
+            } else {
+                leave_chance += 1;
+            }
         }
     }
 
