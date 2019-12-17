@@ -552,6 +552,7 @@ impl Moons {
         // lake kingdom
         let lake1 = moons.len();
         moons.push(Moon::new_multi("Broodals Over the Lake", KingdomName::Lake));
+        kingdoms.kingdom_mut(KingdomName::Lake).set_exit_moon(lake1);
         moons.push(Moon::new("Dorrie-Back Rider", KingdomName::Lake));
         moons.push(Moon::new("Cheep Cheep Crossing", KingdomName::Lake));
         moons.push(Moon::new("End of the Hidden Passage", KingdomName::Lake));
@@ -654,6 +655,7 @@ impl Moons {
         let wooded4 = moons.len();
         moons.push(Moon::new_multi("Defend the Secret Flower Field!", KingdomName::Wooded));
         moons[wooded4].add_prereq_moon(wooded3);
+        kingdoms.kingdom_mut(KingdomName::Wooded).set_exit_moon(wooded4);
         let wooded5 = moons.len();
         moons.push(Moon::new("Behind the Rock Wall", KingdomName::Wooded));
         moons[wooded5].add_prereq_moon(wooded2);
@@ -961,6 +963,7 @@ impl Moons {
         moons[metro6].add_prereq_moon(metro5);
         let metro7 = moons.len();
         moons.push(Moon::new_multi("A Traditional Festival", KingdomName::Metro));
+        kingdoms.kingdom_mut(KingdomName::Metro).set_exit_moon(metro7);
         moons[metro7].add_prereq_moon(metro6);
         moons.push(Moon::new("Inside an Iron Girder", KingdomName::Metro));
         moons.push(Moon::new("Swaying in the Breeze", KingdomName::Metro));
@@ -1203,6 +1206,7 @@ impl Moons {
         moons[snow5].add_prereq_moon(snow2);
         moons[snow5].add_prereq_moon(snow3);
         moons[snow5].add_prereq_moon(snow4);
+        kingdoms.kingdom_mut(KingdomName::Snow).set_exit_moon(snow5);
         moons[cascade18].add_prereq_moon(snow5);
         moons[lake26].add_prereq_moon(snow5);
         moons[wooded49].add_prereq_moon(snow5);
@@ -1352,6 +1356,7 @@ impl Moons {
         moons[seaside5].add_prereq_moon(seaside2);
         moons[seaside5].add_prereq_moon(seaside3);
         moons[seaside5].add_prereq_moon(seaside4);
+        kingdoms.kingdom_mut(KingdomName::Seaside).set_exit_moon(seaside5);
         moons[cascade18].add_prereq_moon(seaside5);
         moons[lake26].add_prereq_moon(seaside5);
         moons[wooded49].add_prereq_moon(seaside5);
@@ -1497,6 +1502,7 @@ impl Moons {
         let luncheon5 = moons.len();
         moons.push(Moon::new_multi("Cookatiel Showdown!", KingdomName::Luncheon));
         moons[luncheon5].add_prereq_moon(luncheon4);
+        kingdoms.kingdom_mut(KingdomName::Luncheon).set_exit_moon(luncheon5);
         moons.push(Moon::new("Piled on the Salt", KingdomName::Luncheon));
         moons.push(Moon::new("Lurking in the Pillar's Shadow", KingdomName::Luncheon));
         let luncheon8 = moons.len();
@@ -1687,6 +1693,7 @@ impl Moons {
         // ruined kingdom
         let ruined1 = moons.len();
         moons.push(Moon::new_multi("Battle with the Lord of Lightning!", KingdomName::Ruined));
+        kingdoms.kingdom_mut(KingdomName::Ruined).set_exit_moon(ruined1);
         moons.push(Moon::new("In the Ancient Treasure Chest", KingdomName::Ruined));
         let ruined3 = moons.len();
         moons.push(Moon::new("Roulette Tower: Climbed", KingdomName::Ruined));
