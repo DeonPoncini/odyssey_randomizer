@@ -58,10 +58,22 @@ impl State {
     }
 
     pub fn add_kingdom_to_schedule(&mut self, id: KingdomName) {
-        if !self.kingdoms_completed.contains(&id) &&
-                    id != self.current_kingdom {
-            self.kingdoms_to_schedule.push(id);
+        if id == self.current_kingdom {
+            return; // don't reschedule yourself
         }
+        if self.kingdoms_completed.contains(&id) {
+            // check if there are any pending moons to schedule
+            match self.moons_stored_queue.get(&id) {
+                Some(v) => {
+                    if v.is_empty() {
+                        return; // no stored moons
+                    }
+                    // otherwise, reschedule the kingdom
+                }
+                None => return,
+            }
+        }
+        self.kingdoms_to_schedule.push(id);
     }
 
     pub fn schedule_kingdom(&mut self) -> bool {
@@ -114,6 +126,7 @@ impl State {
     }
 
     pub fn complete_kingdom(&mut self, id: KingdomName) {
+        // before we complete a kingdom
         self.kingdoms_completed.insert(id);
     }
 
