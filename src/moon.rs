@@ -2003,6 +2003,17 @@ impl Moons {
         moons[cap17].add_prereq_kingdom_count(KingdomName::Cap, 2);
         offset.push((moon1, moons.len()));
 
+        // mushroom
+        let mushroom1 = moons.len();
+        moons.push(Moon::new("Perched on the Castle Roof", KingdomName::Mushroom));
+        moons.push(Moon::new("Pops Out of the Tail", KingdomName::Mushroom));
+        moons.push(Moon::new("Caught Hopping at Peach's Castle!", KingdomName::Mushroom));
+        moons.push(Moon::new("Gardening for Toad: Garden Seed", KingdomName::Mushroom));
+        moons.push(Moon::new("Gardening for Toad: Field Seed", KingdomName::Mushroom));
+        moons.push(Moon::new("Gardening for Toad: Pasture Seed", KingdomName::Mushroom));
+        moons.push(Moon::new("Gardening for Toad: Lake Seed", KingdomName::Mushroom));
+        offset.push((mushroom1, moons.len()));
+
         // dark side
         offset.push((0, 0));
 

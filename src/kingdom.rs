@@ -134,7 +134,7 @@ impl Kingdoms {
         kingdoms.push(Kingdom::new("Luncheon Kingdom", 18, 0));
         kingdoms.push(Kingdom::new("Ruined Kingdom", 3, 0));
         kingdoms.push(Kingdom::new("Bowser's Kingdom", 8, 0));
-        kingdoms.push(Kingdom::new("Moon Kingdom", 0, 0));
+        kingdoms.push(Kingdom::new("Moon Kingdom", 1, 0));
         kingdoms.push(Kingdom::new("Mushroom Kingdom", 1, 0));
         kingdoms.push(Kingdom::new("Dark Side", 4, 250));
         kingdoms.push(Kingdom::new("Darker Side", 3, 500));
