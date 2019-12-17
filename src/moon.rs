@@ -1675,7 +1675,34 @@ impl Moons {
         offset.push((luncheon1, moons.len()));
 
         // ruined kingdom
-        offset.push((0, 0));
+        let ruined1 = moons.len();
+        moons.push(Moon::new_multi("Battle with the Lord of Lightning!", KingdomName::Ruined));
+        moons.push(Moon::new("In the Ancient Treasure Chest", KingdomName::Ruined));
+        let ruined3 = moons.len();
+        moons.push(Moon::new("Roulette Tower: Climbed", KingdomName::Ruined));
+        moons[ruined3].add_prereq_moon(ruined1);
+        let ruined4 = moons.len();
+        moons.push(Moon::new("Roulette Tower: Stopped", KingdomName::Ruined));
+        moons[ruined4].add_prereq_moon(ruined1);
+        let ruined5 = moons.len();
+        moons.push(Moon::new("Peach in the Ruined Kingdom", KingdomName::Ruined));
+        moons[ruined5].add_prereq_kingdom(KingdomName::Mushroom);
+        let ruined6 = moons.len();
+        moons.push(Moon::new("Caught on a Big Horn", KingdomName::Ruined));
+        moons[ruined6].add_prereq_kingdom(KingdomName::Mushroom);
+        let ruined7 = moons.len();
+        moons.push(Moon::new("Upon the Broken Arch", KingdomName::Ruined));
+        moons[ruined7].add_prereq_kingdom(KingdomName::Mushroom);
+        let ruined8 = moons.len();
+        moons.push(Moon::new("Rolling Rock on the Battlefield", KingdomName::Ruined));
+        moons[ruined8].add_prereq_kingdom(KingdomName::Mushroom);
+        let ruined9 = moons.len();
+        moons.push(Moon::new("Charging Through an Army", KingdomName::Ruined));
+        moons[ruined9].add_prereq_kingdom(KingdomName::Mushroom);
+        let ruined10 = moons.len();
+        moons.push(Moon::new("The Mummy Army's Curse", KingdomName::Ruined));
+        moons[ruined10].add_prereq_kingdom(KingdomName::Mushroom);
+        offset.push((ruined1, moons.len()));
 
         // bowser's kingdom
         let sand63 = moons.len();
