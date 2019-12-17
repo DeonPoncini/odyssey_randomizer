@@ -223,6 +223,7 @@ impl Moons {
         let cascade2 = moons.len();
         moons.push(Moon::new_multi("Multi Moon Atop the Falls", KingdomName::Cascade));
         moons[cascade2].add_prereq_moon(cascade1);
+        kingdoms.kingdom_mut(KingdomName::Cascade).set_exit_moon(cascade2);
         let cascade3 = moons.len();
         moons.push(Moon::new("Chomp Through the Rocks", KingdomName::Cascade));
         moons[cascade3].add_prereq_moon(cascade1);
@@ -354,6 +355,7 @@ impl Moons {
         let sand4 = moons.len();
         moons.push(Moon::new_multi("The Hole in the Desert", KingdomName::Sand));
         moons[sand4].add_prereq_moon(sand3);
+        kingdoms.kingdom_mut(KingdomName::Sand).set_exit_moon(sand4);
         moons.push(Moon::new("Overlooking the Desert Town", KingdomName::Sand));
         moons.push(Moon::new("Alcove in the Ruins", KingdomName::Sand));
         moons.push(Moon::new("On the Leaning Pillar", KingdomName::Sand));

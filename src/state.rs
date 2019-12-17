@@ -163,6 +163,10 @@ impl State {
         self.moons_to_schedule.push(id);
     }
 
+    pub fn moons_to_schedule(&self) -> usize {
+        self.moons_to_schedule.len()
+    }
+
     pub fn schedule_moon(&mut self, moons: &Moons) -> bool {
         // if there are no moons to schedule, return false
         if self.moons_to_schedule.is_empty() {

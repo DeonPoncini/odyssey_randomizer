@@ -32,12 +32,13 @@ fn main() {
             exit_count = kingdoms.kingdom(state.current_kingdom())
                 .moons_to_leave();
         }
-        let exit_count = std::cmp::min(exit_count as usize, available.len());
+        let scheduleable = state.moons_to_schedule();
+        let exit_count = std::cmp::min(exit_count as usize, scheduleable);
         let scheduled;
-        if exit_count == available.len() {
+        if exit_count == scheduleable {
             scheduled = exit_count;
         } else {
-            scheduled = thread_rng().gen_range(exit_count, available.len());
+            scheduled = thread_rng().gen_range(exit_count, scheduleable);
         }
         if scheduled == 0 {
             state.next_kingdom(&kingdoms);
