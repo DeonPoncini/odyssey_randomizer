@@ -1,4 +1,4 @@
-use crate::kingdom::KingdomName;
+use crate::kingdom::{Kingdoms, KingdomName};
 use crate::state::State;
 
 pub type MoonID = usize;
@@ -120,7 +120,7 @@ impl Moons {
         ret
     }
 
-    pub fn new() -> Self {
+    pub fn new(kingdoms: &mut Kingdoms) -> Self {
         let mut moons = Vec::new();
         let mut offset = Vec::new();
         // cap kingdom
@@ -1705,11 +1705,27 @@ impl Moons {
         offset.push((ruined1, moons.len()));
 
         // bowser's kingdom
+        let bowser1 = moons.len();
+        moons.push(Moon::new("Infiltrate Bowser's Castle", KingdomName::Bowser));
+        let bowser2 = moons.len();
+        moons.push(Moon::new("Smart Bombing", KingdomName::Bowser));
+        moons[bowser2].add_prereq_moon(bowser1);
+        let bowser3 = moons.len();
+        moons.push(Moon::new("Big Broodal Battle", KingdomName::Bowser));
+        moons[bowser3].add_prereq_moon(bowser2);
+        let bowser4 = moons.len();
+        moons.push(Moon::new_multi("Showdown at Bowser's Castle", KingdomName::Bowser));
+        kingdoms.kingdom_mut(KingdomName::Bowser).set_exit_moon(bowser4);
+        moons[bowser4].add_prereq_moon(bowser3);
+        moons.push(Moon::new("Behind the Big Wall", KingdomName::Bowser));
+        let bowser5 = moons.len();
+        moons.push(Moon::new("Treasure Inside the Turret", KingdomName::Bowser));
+        moons[bowser5].add_prereq_moon(bowser1);
         let sand63 = moons.len();
         moons.push(Moon::new("Found with Sand Kingdom Art", KingdomName::Bowser));
         moons[sand63].add_prereq_kingdom(KingdomName::Mushroom);
         moons[sand63].add_prereq_kingdom_count(KingdomName::Sand, 2);
-        offset.push((sand63, moons.len()));
+        offset.push((bowser1, moons.len()));
 
         // moon kingdom
         let cap17 = moons.len();

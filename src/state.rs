@@ -147,9 +147,8 @@ impl State {
                 self.add_kingdom_to_schedule(KingdomName::Darker);
             }
         } else {
-            if self.total_kingdom_moons() <
-                    kingdoms.kingdom(self.current_kingdom).moons_to_leave() {
-                // we can't leave yet
+            if !kingdoms.kingdom(self.current_kingdom).can_leave(&self) {
+                // can't leave yet
                 return;
             }
             for k in kingdoms.kingdom(self.current_kingdom).next() {

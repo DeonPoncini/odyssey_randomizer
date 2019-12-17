@@ -10,8 +10,8 @@ mod state;
 
 fn main() {
     let mut state = State::new();
-    let kingdoms = Kingdoms::new();
-    let mut moons = Moons::new();
+    let mut kingdoms = Kingdoms::new();
+    let mut moons = Moons::new(&mut kingdoms);
     let mut leave_chance = 1;
 
     // start up the first kingdom

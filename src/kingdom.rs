@@ -1,3 +1,4 @@
+use crate::moon::MoonID;
 use crate::state::State;
 
 #[derive(Clone, Copy, Eq, Hash, PartialEq)]
@@ -27,6 +28,7 @@ pub struct Kingdom {
     moons_to_unlock: u16,
     prerequisite_kingdoms: Vec<KingdomName>,
     next_kingdoms: Vec<KingdomName>,
+    exit_moon: Option<MoonID>,
 }
 
 impl Kingdom {
@@ -38,6 +40,7 @@ impl Kingdom {
             moons_to_unlock,
             prerequisite_kingdoms: Vec::new(),
             next_kingdoms: Vec::new(),
+            exit_moon: None,
         }
     }
 
@@ -61,6 +64,28 @@ impl Kingdom {
         self.moons_to_leave
     }
 
+    pub fn set_exit_moon(&mut self, moon: MoonID) {
+        self.exit_moon = Some(moon);
+    }
+
+    pub fn can_leave(&self, state: &State) -> bool {
+        // can leave if the total kingdom moons are enough
+        if state.total_kingdom_moons() < self.moons_to_leave {
+            println!("Total kingdom moons: {} to leave {}", state.total_kingdom_moons(), self.moons_to_leave);
+            return false;
+        }
+        // can leave if the required moon ID has been scheduled
+        match self.exit_moon {
+            Some(m) => {
+                if !state.moon_scheduled(m) {
+                    return false;
+                }
+            }
+            None => {}
+        }
+        true
+    }
+
     pub fn available(&self, state: &State) -> bool {
         // available if all prerequisites are scheduled
         for p in &self.prerequisite_kingdoms {
@@ -74,6 +99,7 @@ impl Kingdom {
             return false;
         }
 
+
         true
     }
 }
@@ -85,6 +111,10 @@ pub struct Kingdoms {
 impl Kingdoms {
     pub fn kingdom(&self, id: KingdomName) -> &Kingdom {
         &self.kingdoms[id as usize]
+    }
+
+    pub fn kingdom_mut(&mut self, id: KingdomName) -> &mut Kingdom {
+        &mut self.kingdoms[id as usize]
     }
 
     pub fn new() -> Self {
