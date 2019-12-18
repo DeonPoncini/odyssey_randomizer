@@ -9,6 +9,7 @@ pub struct Moon {
     kingdom: KingdomName,
     prerequisite_kingdoms: Vec<(KingdomName, u8)>,
     prerequisite_moons: Vec<MoonID>,
+    prerequisite_moon_count: u16,
 }
 
 impl Moon {
@@ -19,6 +20,7 @@ impl Moon {
             kingdom: kingdom,
             prerequisite_kingdoms: Vec::new(),
             prerequisite_moons: Vec::new(),
+            prerequisite_moon_count: 0,
         }
     }
 
@@ -29,6 +31,7 @@ impl Moon {
             kingdom: kingdom,
             prerequisite_kingdoms: Vec::new(),
             prerequisite_moons: Vec::new(),
+            prerequisite_moon_count: 0,
         }
     }
 
@@ -42,6 +45,10 @@ impl Moon {
 
     fn add_prereq_moon(&mut self, moon: MoonID) {
         self.prerequisite_moons.push(moon);
+    }
+
+    fn set_prereq_moon_count(&mut self, count: u16) {
+        self.prerequisite_moon_count = count;
     }
 
     pub fn name(&self) -> &str {
@@ -74,6 +81,11 @@ impl Moon {
             if !state.moon_scheduled(*p) {
                 return false;
             }
+        }
+
+        // enough moons need to be scheduled
+        if state.total_moons() < self.prerequisite_moon_count {
+            return false;
         }
 
         true
@@ -215,6 +227,9 @@ impl Moons {
         let cap31 = moons.len();
         moons.push(Moon::new("Precision Rolling", KingdomName::Cap));
         moons[cap31].add_prereq_kingdom(KingdomName::Mushroom);
+        let mushroom41 = moons.len();
+        moons.push(Moon::new("Found with Mushroom kingdom Art", KingdomName::Cap));
+        moons[mushroom41].add_prereq_kingdom(KingdomName::Mushroom);
         offset.push((cap1, moons.len()));
 
         // cascade kingdom
@@ -360,6 +375,7 @@ impl Moons {
         moons.push(Moon::new("Alcove in the Ruins", KingdomName::Sand));
         moons.push(Moon::new("On the Leaning Pillar", KingdomName::Sand));
         moons.push(Moon::new("Hidden Room in the Flowing Sands", KingdomName::Sand));
+        let sand9 = moons.len();
         moons.push(Moon::new("Secret of the Mural", KingdomName::Sand));
         let sand10 = moons.len();
         moons.push(Moon::new("Secret of the Inverted Mural", KingdomName::Sand));
@@ -387,6 +403,7 @@ impl Moons {
         let sand23 = moons.len();
         moons.push(Moon::new("The Lurker Under the Stone", KingdomName::Sand));
         moons[sand23].add_prereq_moon(sand4);
+        let sand24 = moons.len();
         moons.push(Moon::new("The Treasure of Jaxi Ruins", KingdomName::Sand));
         moons.push(Moon::new("Desert Gardening: Plaza Seed", KingdomName::Sand));
         moons.push(Moon::new("Desert Gardening: Ruins Seed", KingdomName::Sand));
@@ -403,6 +420,7 @@ impl Moons {
         let sand31 = moons.len();
         moons.push(Moon::new("Found in the Sand! Good Dog!", KingdomName::Sand));
         moons[sand31].add_prereq_moon(sand4);
+        let sand32 = moons.len();
         moons.push(Moon::new("Taking Notes: Jump on the Palm", KingdomName::Sand));
         moons.push(Moon::new("Herding Sheep in the Dunes", KingdomName::Sand));
         let sand34 = moons.len();
@@ -441,6 +459,7 @@ impl Moons {
         moons.push(Moon::new("Under the Mummy's Curse", KingdomName::Sand));
         moons[sand49].add_prereq_moon(sand4);
         moons.push(Moon::new("Ice Cave Treasure", KingdomName::Sand));
+        let sand51 = moons.len();
         moons.push(Moon::new("Sphynx's Treasure Vault", KingdomName::Sand));
         moons.push(Moon::new("A Rumble from the Sandy Floor", KingdomName::Sand));
         moons.push(Moon::new("Dancing with New Friends", KingdomName::Sand));
@@ -473,7 +492,6 @@ impl Moons {
         moons[sand67].add_prereq_kingdom(KingdomName::Mushroom);
         let sand68 = moons.len();
         moons.push(Moon::new("Round-the-World Tourist", KingdomName::Sand));
-        // TODO: requires mushroom kingdom tourist
         let sand69 = moons.len();
         moons.push(Moon::new("Peach in the Sand Kingdom", KingdomName::Sand));
         moons[sand69].add_prereq_kingdom(KingdomName::Mushroom);
@@ -559,6 +577,7 @@ impl Moons {
         moons.push(Moon::new("What's in the Box?", KingdomName::Lake));
         moons.push(Moon::new("On the Lakeshore", KingdomName::Lake));
         moons.push(Moon::new("From the Broken Pillar", KingdomName::Lake));
+        let lake8 = moons.len();
         moons.push(Moon::new("Treasure in the Spiky Waterway", KingdomName::Lake));
         let lake9 = moons.len();
         moons.push(Moon::new("Lake Gardening: Spiky Passage Seed", KingdomName::Lake));
@@ -570,7 +589,9 @@ impl Moons {
         moons.push(Moon::new("Lake Kingdom Timer Challenge 2", KingdomName::Lake));
         moons[lake11].add_prereq_moon(lake1);
         moons.push(Moon::new("Moon Shards in the Lake", KingdomName::Lake));
+        let lake13 = moons.len();
         moons.push(Moon::new("Taking Notes: Dive and Swim", KingdomName::Lake));
+        let lake14 = moons.len();
         moons.push(Moon::new("Taking Notes: In the Cliffside", KingdomName::Lake));
         let lake15 = moons.len();
         moons.push(Moon::new("Lake Fishing", KingdomName::Lake));
@@ -587,6 +608,7 @@ impl Moons {
         moons.push(Moon::new("I Feel Underdressed", KingdomName::Lake));
         moons.push(Moon::new("Unzip the Chasm", KingdomName::Lake));
         moons.push(Moon::new("Super-Secret Zipper", KingdomName::Lake));
+        let lake25 = moons.len();
         moons.push(Moon::new("Jump, Grab, Cling, and Climb", KingdomName::Lake));
         let lake26 = moons.len();
         moons.push(Moon::new("Secret Path to Lake Lamode!", KingdomName::Lake));
@@ -712,7 +734,9 @@ impl Moons {
         moons.push(Moon::new("The Hard Rock in Deep Woods", KingdomName::Wooded));
         moons.push(Moon::new("A Treasure Made from Coins", KingdomName::Wooded));
         moons.push(Moon::new("Beneath the Roots of the Moving Tree", KingdomName::Wooded));
+        let wooded35 = moons.len();
         moons.push(Moon::new("Deep Woods Treasure Trap", KingdomName::Wooded));
+        let wooded36 = moons.len();
         moons.push(Moon::new("Exploring for Treasure", KingdomName::Wooded));
         let wooded37 = moons.len();
         moons.push(Moon::new("Wooded Kingdom Timer Challenge 1", KingdomName::Wooded));
@@ -872,6 +896,7 @@ impl Moons {
         moons.push(Moon::new("Inside the Stone Cage", KingdomName::Lost));
         moons.push(Moon::new("On a Tree in the Swamp", KingdomName::Lost));
         moons.push(Moon::new("Over the Fuzzies, Above the Swamp", KingdomName::Lost));
+        let lost6 = moons.len();
         moons.push(Moon::new("Avoiding Fuzzies Inside the Wall", KingdomName::Lost));
         moons.push(Moon::new("Inside the Rising Stone Pillar", KingdomName::Lost));
         moons.push(Moon::new("Enjoying the View of Forgotten Isle", KingdomName::Lost));
@@ -1036,6 +1061,7 @@ impl Moons {
         let metro33 = moons.len();
         moons.push(Moon::new("Taking Notes: In the Private Room", KingdomName::Metro));
         moons[metro33].add_prereq_moon(metro1);
+        let metro34 = moons.len();
         moons.push(Moon::new("City Hall Lost & Found", KingdomName::Metro));
         let metro35 = moons.len();
         moons.push(Moon::new("Sewer Treasure", KingdomName::Metro));
@@ -1217,7 +1243,9 @@ impl Moons {
         let snow10 = moons.len();
         moons.push(Moon::new("Caught Hopping in the Snow!", KingdomName::Snow));
         moons[snow10].add_prereq_moon(snow5);
+        let snow11 = moons.len();
         moons.push(Moon::new("The Shiverian Treasure Chest", KingdomName::Snow));
+        let snow12 = moons.len();
         moons.push(Moon::new("Treasure in the Ice Wall", KingdomName::Snow));
         let snow13 = moons.len();
         moons.push(Moon::new("Snow Kingdom Timer Challenge 1", KingdomName::Snow));
@@ -1262,6 +1290,7 @@ impl Moons {
         moons.push(Moon::new("Blowing and Sliding", KingdomName::Snow));
         moons[snow28].add_prereq_moon(snow5);
         moons.push(Moon::new("Moon Shards in the Cold Room", KingdomName::Snow));
+        let snow30 = moons.len();
         moons.push(Moon::new("Slip Behind the Ice", KingdomName::Snow));
         let snow31 = moons.len();
         moons.push(Moon::new("Spinning Above the Clouds", KingdomName::Snow));
@@ -1362,7 +1391,9 @@ impl Moons {
         moons[wooded49].add_prereq_moon(seaside5);
         moons.push(Moon::new("On the Cliff Overlooking the Beach", KingdomName::Seaside));
         moons.push(Moon::new("Ride the Jetstream", KingdomName::Seaside));
+        let seaside8 = moons.len();
         moons.push(Moon::new("Ocean-Bottom Maze: Treasure", KingdomName::Seaside));
+        let seaside9 = moons.len();
         moons.push(Moon::new("Ocean-Bottom Maze: Hidden Room", KingdomName::Seaside));
         moons.push(Moon::new("Underwater Highway Tunnel", KingdomName::Seaside));
         moons.push(Moon::new("Shh! It's a Shortcut!", KingdomName::Seaside));
@@ -1378,11 +1409,14 @@ impl Moons {
         moons.push(Moon::new("Bubblaine Northern Reaches", KingdomName::Seaside));
         moons.push(Moon::new("Wriggling on the Sandy Bottom", KingdomName::Seaside));
         moons.push(Moon::new("Glass Palace Treasure Chest", KingdomName::Seaside));
+        let seaside21 = moons.len();
         moons.push(Moon::new("Treasure Trap Hidden in the Inlet", KingdomName::Seaside));
+        let seaside22 = moons.len();
         moons.push(Moon::new("Sea Gardening: Inlet Seed", KingdomName::Seaside));
         moons.push(Moon::new("Sea Gardening: Canyon Seed", KingdomName::Seaside));
         moons.push(Moon::new("Sea Gardening: Hot-Spring Seed", KingdomName::Seaside));
         moons.push(Moon::new("Sea Gardening: Ocean Trench Seed", KingdomName::Seaside));
+        let seaside27 = moons.len();
         moons.push(Moon::new("Seaside Kingdom Timer Challenge 1", KingdomName::Seaside));
         let seaside28 = moons.len();
         moons.push(Moon::new("Seaside Kingdom Timer Challenge 2", KingdomName::Seaside));
@@ -1391,6 +1425,7 @@ impl Moons {
         moons.push(Moon::new("Found on the Beach! Good Dog!", KingdomName::Seaside));
         moons[seaside29].add_prereq_moon(seaside5);
         moons.push(Moon::new("Moon Shards in the Sea", KingdomName::Seaside));
+        let seaside31 = moons.len();
         moons.push(Moon::new("Taking Notes: Ocean Surface Dash", KingdomName::Seaside));
         moons.push(Moon::new("Love by the Seaside", KingdomName::Seaside));
         let seaside33 = moons.len();
@@ -1412,6 +1447,7 @@ impl Moons {
         moons.push(Moon::new("Wading in the Cloud Sea", KingdomName::Seaside));
         moons.push(Moon::new("Sunken Treasure in the Cloud Sea", KingdomName::Seaside));
         moons.push(Moon::new("Fly Through the Narrow Valley", KingdomName::Seaside));
+        let seaside46 = moons.len();
         moons.push(Moon::new("Treasure Chest in the Narrow Valley", KingdomName::Seaside));
         moons.push(Moon::new("Hurry and Stretch", KingdomName::Seaside));
         moons.push(Moon::new("Stretch on the Side Path", KingdomName::Seaside));
@@ -1535,6 +1571,7 @@ impl Moons {
         let luncheon17 = moons.len();
         moons.push(Moon::new("Golden Turnip Recipe 3", KingdomName::Luncheon));
         moons[luncheon17].add_prereq_moon(luncheon2);
+        let luncheon18 = moons.len();
         moons.push(Moon::new("Luncheon Kingdom Timer Challenge 1", KingdomName::Luncheon));
         let luncheon19 = moons.len();
         moons.push(Moon::new("Luncheon Kingdom Timer Challenge 2", KingdomName::Luncheon));
@@ -1694,6 +1731,7 @@ impl Moons {
         let ruined1 = moons.len();
         moons.push(Moon::new_multi("Battle with the Lord of Lightning!", KingdomName::Ruined));
         kingdoms.kingdom_mut(KingdomName::Ruined).set_exit_moon(ruined1);
+        let ruined2 = moons.len();
         moons.push(Moon::new("In the Ancient Treasure Chest", KingdomName::Ruined));
         let ruined3 = moons.len();
         moons.push(Moon::new("Roulette Tower: Climbed", KingdomName::Ruined));
@@ -1769,6 +1807,7 @@ impl Moons {
         let bowser17 = moons.len();
         moons.push(Moon::new("Bowser's Kingdom Timer Challenge 1", KingdomName::Bowser));
         moons[bowser17].add_prereq_moon(bowser4);
+        let bowser18 = moons.len();
         moons.push(Moon::new("Taking Notes: Between Spinies", KingdomName::Bowser));
         moons.push(Moon::new("Stack Up Above the Wall", KingdomName::Bowser));
         let bowser20 = moons.len();
@@ -1912,13 +1951,17 @@ impl Moons {
         moons.push(Moon::new("The Tip of a White Spire", KingdomName::Moon));
         moons.push(Moon::new("Rolling Rock on the Moon", KingdomName::Moon));
         moons.push(Moon::new("Caught Hopping on the Moon!", KingdomName::Moon));
+        let moon6 = moons.len();
         moons.push(Moon::new("Cliffside Treasure Chest", KingdomName::Moon));
+        let moon7 = moons.len();
         moons.push(Moon::new("Moon Kingdom Timer Challenge 1", KingdomName::Moon));
+        let moon8 = moons.len();
         moons.push(Moon::new("Taking Notes: On the Moon's Surface", KingdomName::Moon));
         moons.push(Moon::new("Under the Bowser Statue", KingdomName::Moon));
         moons.push(Moon::new("In a Hole in the Magma", KingdomName::Moon));
         moons.push(Moon::new("Around the Barrier Wall", KingdomName::Moon));
         moons.push(Moon::new("On Top of the Cannon", KingdomName::Moon));
+        let moon13 = moons.len();
         moons.push(Moon::new("Fly to the Treasure Chest and Back", KingdomName::Moon));
         moons.push(Moon::new("Up in the Rafters", KingdomName::Moon));
         let moon15 = moons.len();
@@ -2021,6 +2064,218 @@ impl Moons {
         moons.push(Moon::new("Gardening for Toad: Field Seed", KingdomName::Mushroom));
         moons.push(Moon::new("Gardening for Toad: Pasture Seed", KingdomName::Mushroom));
         moons.push(Moon::new("Gardening for Toad: Lake Seed", KingdomName::Mushroom));
+        moons.push(Moon::new("Grow a Flower Garden", KingdomName::Mushroom));
+        let mushroom9 = moons.len();
+        moons.push(Moon::new("Mushroom Kingdom Timer Challenge", KingdomName::Mushroom));
+        moons.push(Moon::new("Found at Peach's Castle! Good Dog!", KingdomName::Mushroom));
+        let mushroom11 = moons.len();
+        moons.push(Moon::new("Taking Notes: Around the Well", KingdomName::Mushroom));
+        moons.push(Moon::new("Herding Sheep at Peach's Castle", KingdomName::Mushroom));
+        let mushroom13 = moons.len();
+        moons.push(Moon::new("Gobbling Fruit with Yoshi", KingdomName::Mushroom));
+        let mushroom14 = moons.len();
+        moons.push(Moon::new("Yoshi's Second Helping!", KingdomName::Mushroom));
+        moons[mushroom14].add_prereq_moon(mushroom13);
+        let mushroom15 = moons.len();
+        moons.push(Moon::new("Yoshi's All Filled Up!", KingdomName::Mushroom));
+        moons[mushroom15].add_prereq_moon(mushroom14);
+        moons.push(Moon::new("Love at Peach's Castle", KingdomName::Mushroom));
+        moons.push(Moon::new("Toad Defender", KingdomName::Mushroom));
+        moons.push(Moon::new("Forever Onward, Captain Toad!", KingdomName::Mushroom));
+        moons.push(Moon::new("Jammin' in the Mushroom Kingdom", KingdomName::Mushroom));
+        moons.push(Moon::new("Shopping Near Peach's Kingdom", KingdomName::Mushroom));
+        let mushroom21 = moons.len();
+        moons.push(Moon::new("Mushroom Kingdom Regular Cup", KingdomName::Mushroom));
+        let mushroom22 = moons.len();
+        moons.push(Moon::new("Mushroom Kingdom Master Cup", KingdomName::Mushroom));
+        moons[mushroom22].add_prereq_moon(mushroom21);
+        let mushroom23 = moons.len();
+        moons.push(Moon::new("Picture Match: Basically a Mario", KingdomName::Mushroom));
+        let mushroom24 = moons.len();
+        moons.push(Moon::new("Picture Match: A Stellar Mario!", KingdomName::Mushroom));
+        moons[mushroom24].add_prereq_moon(mushroom23);
+        moons.push(Moon::new("Light from the Ceiling", KingdomName::Mushroom));
+        moons.push(Moon::new("Loose-Tile Trackdown", KingdomName::Mushroom));
+        moons.push(Moon::new("Totally Classic", KingdomName::Mushroom));
+        let mushroom28 = moons.len();
+        moons.push(Moon::new("Courtyard Chest Trap", KingdomName::Mushroom));
+        moons.push(Moon::new("Yoshi's Feast in the Sea of Clouds", KingdomName::Mushroom));
+        moons.push(Moon::new("Sunken Star in the Sea of Clouds", KingdomName::Mushroom));
+        moons.push(Moon::new("Secret 2D Treasure", KingdomName::Mushroom));
+        moons.push(Moon::new("2D Boost from Bullet Bill", KingdomName::Mushroom));
+        moons.push(Moon::new_multi("Tussle in Tostarena: Rematch", KingdomName::Mushroom));
+        moons.push(Moon::new_multi("Struggle in Steam Gardens: Rematch", KingdomName::Mushroom));
+        moons.push(Moon::new_multi("Dust-Up in New Donk City: Rematch", KingdomName::Mushroom));
+        moons.push(Moon::new_multi("Battle in Bubblaine: Rematch", KingdomName::Mushroom));
+        moons.push(Moon::new_multi("Blowup in Mount Volbano: Rematch", KingdomName::Mushroom));
+        moons.push(Moon::new_multi("Rumble in Crumbleden: Rematch", KingdomName::Mushroom));
+        let mushroom39 = moons.len();
+        moons.push(Moon::new("Secret Path to Peach's Castle!", KingdomName::Mushroom));
+        moons[mushroom39].add_prereq_moon(luncheon2);
+        moons[mushroom39].add_prereq_kingdom_count(KingdomName::Luncheon, 2);
+        let mushroom40 = moons.len();
+        moons.push(Moon::new("A Tourist in the Mushroom Kingdom", KingdomName::Mushroom));
+        moons[mushroom40].add_prereq_moon(moon25);
+        moons[sand68].add_prereq_moon(mushroom40);
+        let mushroom42 = moons.len();
+        moons.push(Moon::new("Hat-and-Seek: Mushroom Kingdom", KingdomName::Mushroom));
+        moons[mushroom42].add_prereq_moon(moon26);
+        let mushroom43 = moons.len();
+        moons.push(Moon::new("Princess Peach, Home Again!", KingdomName::Mushroom));
+        moons[mushroom43].add_prereq_moon(moon26);
+        let mushroom44 = moons.len();
+        moons.push(Moon::new("Rescue Princess Peach", KingdomName::Mushroom));
+        let mushroom45 = moons.len();
+        moons.push(Moon::new("Achieve World Peace", KingdomName::Mushroom));
+        moons[mushroom45].add_prereq_moon(mushroom44);
+        moons[mushroom45].add_prereq_moon(cascade2);
+        moons[mushroom45].add_prereq_moon(sand4);
+        moons[mushroom45].add_prereq_moon(lake1);
+        moons[mushroom45].add_prereq_moon(wooded4);
+        moons[mushroom45].add_prereq_moon(metro7);
+        moons[mushroom45].add_prereq_moon(snow5);
+        moons[mushroom45].add_prereq_moon(seaside5);
+        moons[mushroom45].add_prereq_moon(luncheon5);
+        moons[mushroom45].add_prereq_moon(ruined1);
+        moons[mushroom45].add_prereq_moon(bowser4);
+        let mushroom46 = moons.len();
+        moons.push(Moon::new("Power Moon Knight", KingdomName::Mushroom));
+        moons[mushroom46].add_prereq_moon(mushroom45);
+        moons[mushroom46].set_prereq_moon_count(100);
+        let mushroom47 = moons.len();
+        moons.push(Moon::new("Power Moon Wizard", KingdomName::Mushroom));
+        moons[mushroom47].add_prereq_moon(mushroom46);
+        moons[mushroom47].set_prereq_moon_count(300);
+        let mushroom48 = moons.len();
+        moons.push(Moon::new("Power Moon Ruler", KingdomName::Mushroom));
+        moons[mushroom48].add_prereq_moon(mushroom47);
+        moons[mushroom48].set_prereq_moon_count(600);
+        let mushroom49 = moons.len();
+        moons.push(Moon::new("Regional Coin Shopper", KingdomName::Mushroom));
+        moons[mushroom49].add_prereq_moon(mushroom48);
+        let mushroom50 = moons.len();
+        moons.push(Moon::new("Flat Moon Finder", KingdomName::Mushroom));
+        moons[mushroom50].add_prereq_moon(mushroom49);
+        moons[mushroom50].add_prereq_moon(cascade4);
+        moons[mushroom50].add_prereq_moon(cascade17);
+        moons[mushroom50].add_prereq_moon(cascade35);
+        moons[mushroom50].add_prereq_moon(sand9);
+        moons[mushroom50].add_prereq_moon(sand10);
+        moons[mushroom50].add_prereq_moon(cloud8);
+        moons[mushroom50].add_prereq_moon(cloud9);
+        moons[mushroom50].add_prereq_moon(lost6);
+        moons[mushroom50].add_prereq_moon(metro36);
+        moons[mushroom50].add_prereq_moon(metro64);
+        let mushroom51 = moons.len();
+        moons.push(Moon::new("Flat Moon Fanatic", KingdomName::Mushroom));
+        moons[mushroom51].add_prereq_moon(mushroom50);
+        moons[mushroom51].add_prereq_moon(metro65);
+        moons[mushroom51].add_prereq_moon(snow30);
+        moons[mushroom51].add_prereq_moon(seaside8);
+        moons[mushroom51].add_prereq_moon(seaside9);
+        moons[mushroom51].add_prereq_moon(seaside27);
+        moons[mushroom51].add_prereq_moon(seaside65);
+        moons[mushroom51].add_prereq_moon(luncheon21);
+        moons[mushroom51].add_prereq_moon(ruined4);
+        moons[mushroom51].add_prereq_moon(bowser31);
+        moons[mushroom51].add_prereq_moon(bowser32);
+        let mushroom52 = moons.len();
+        moons.push(Moon::new("Treasure Chest Hunter", KingdomName::Mushroom));
+        moons[mushroom52].add_prereq_moon(mushroom51);
+        moons[mushroom52].add_prereq_moon(cascade6);
+        moons[mushroom52].add_prereq_moon(sand24);
+        moons[mushroom52].add_prereq_moon(sand46);
+        moons[mushroom52].add_prereq_moon(sand47);
+        moons[mushroom52].add_prereq_moon(sand51);
+        moons[mushroom52].add_prereq_moon(lake8);
+        moons[mushroom52].add_prereq_moon(lake25);
+        moons[mushroom52].add_prereq_moon(wooded26);
+        moons[mushroom52].add_prereq_moon(wooded35);
+        moons[mushroom52].add_prereq_moon(wooded36);
+        moons[mushroom52].add_prereq_moon(metro34);
+        moons[mushroom52].add_prereq_moon(metro48);
+        moons[mushroom52].add_prereq_moon(snow11);
+        moons[mushroom52].add_prereq_moon(snow12);
+        moons[mushroom52].add_prereq_moon(snow33);
+        let mushroom53 = moons.len();
+        moons.push(Moon::new("Super Treasure Chest Hunter", KingdomName::Mushroom));
+        moons[mushroom53].add_prereq_moon(mushroom52);
+        moons[mushroom53].add_prereq_moon(seaside21);
+        moons[mushroom53].add_prereq_moon(seaside22);
+        moons[mushroom53].add_prereq_moon(seaside46);
+        moons[mushroom53].add_prereq_moon(luncheon34);
+        moons[mushroom53].add_prereq_moon(ruined2);
+        moons[mushroom53].add_prereq_moon(bowser30);
+        moons[mushroom53].add_prereq_moon(moon6);
+        moons[mushroom53].add_prereq_moon(moon13);
+        moons[mushroom53].add_prereq_moon(moon24);
+        moons[mushroom53].add_prereq_moon(mushroom28);
+        let mushroom54 = moons.len();
+        moons.push(Moon::new("Note-Collecting World Tour", KingdomName::Mushroom));
+        moons[mushroom54].add_prereq_moon(mushroom53);
+        moons[mushroom54].add_prereq_moon(cap27);
+        moons[mushroom54].add_prereq_moon(cascade35);
+        moons[mushroom54].add_prereq_moon(sand32);
+        moons[mushroom54].add_prereq_moon(sand79);
+        moons[mushroom54].add_prereq_moon(sand80);
+        let mushroom55 = moons.len();
+        moons.push(Moon::new("Note-Collecting Space Tour", KingdomName::Mushroom));
+        moons[mushroom55].add_prereq_moon(mushroom54);
+        moons[mushroom55].add_prereq_moon(lake13);
+        moons[mushroom55].add_prereq_moon(lake14);
+        moons[mushroom55].add_prereq_moon(wooded67);
+        moons[mushroom55].add_prereq_moon(wooded68);
+        moons[mushroom55].add_prereq_moon(cloud6);
+        moons[mushroom55].add_prereq_moon(lost29);
+        moons[mushroom55].add_prereq_moon(snow16);
+        moons[mushroom55].add_prereq_moon(seaside31);
+        moons[mushroom55].add_prereq_moon(seaside65);
+        moons[mushroom55].add_prereq_moon(seaside66);
+        moons[mushroom55].add_prereq_moon(luncheon23);
+        moons[mushroom55].add_prereq_moon(luncheon36);
+        moons[mushroom55].add_prereq_moon(luncheon46);
+        moons[mushroom55].add_prereq_moon(bowser18);
+        moons[mushroom55].add_prereq_moon(bowser54);
+        moons[mushroom55].add_prereq_moon(bowser55);
+        moons[mushroom55].add_prereq_moon(moon8);
+        moons[mushroom55].add_prereq_moon(moon34);
+        moons[mushroom55].add_prereq_moon(mushroom11);
+        let mushroom56 = moons.len();
+        moons.push(Moon::new("Timer Challenge Amateur", KingdomName::Mushroom));
+        moons[mushroom56].add_prereq_moon(mushroom55);
+        moons[mushroom56].add_prereq_moon(cap3);
+        moons[mushroom56].add_prereq_moon(cap28);
+        moons[mushroom56].add_prereq_moon(cascade9);
+        moons[mushroom56].add_prereq_moon(cascade10);
+        moons[mushroom56].add_prereq_moon(sand28);
+        moons[mushroom56].add_prereq_moon(sand29);
+        moons[mushroom56].add_prereq_moon(sand30);
+        moons[mushroom56].add_prereq_moon(lake10);
+        moons[mushroom56].add_prereq_moon(lake11);
+        moons[mushroom56].add_prereq_moon(wooded37);
+        moons[mushroom56].add_prereq_moon(wooded38);
+        moons[mushroom56].add_prereq_moon(wooded65);
+        moons[mushroom56].add_prereq_moon(lost31);
+        moons[mushroom56].add_prereq_moon(metro19);
+        moons[mushroom56].add_prereq_moon(metro20);
+        let mushroom57 = moons.len();
+        moons.push(Moon::new("Timer Challenge Professional", KingdomName::Mushroom));
+        moons[mushroom57].add_prereq_moon(mushroom56);
+        moons[mushroom57].add_prereq_moon(metro71);
+        moons[mushroom57].add_prereq_moon(snow13);
+        moons[mushroom57].add_prereq_moon(snow14);
+        moons[mushroom57].add_prereq_moon(snow47);
+        moons[mushroom57].add_prereq_moon(seaside27);
+        moons[mushroom57].add_prereq_moon(seaside28);
+        moons[mushroom57].add_prereq_moon(seaside64);
+        moons[mushroom57].add_prereq_moon(luncheon18);
+        moons[mushroom57].add_prereq_moon(luncheon19);
+        moons[mushroom57].add_prereq_moon(luncheon20);
+        moons[mushroom57].add_prereq_moon(bowser17);
+        moons[mushroom57].add_prereq_moon(bowser53);
+        moons[mushroom57].add_prereq_moon(moon7);
+        moons[mushroom57].add_prereq_moon(moon31);
+        moons[mushroom57].add_prereq_moon(mushroom9);
         offset.push((mushroom1, moons.len()));
 
         // dark side
