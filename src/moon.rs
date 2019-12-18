@@ -355,6 +355,9 @@ impl Moons {
         moons.push(Moon::new("Found with Lake Kingdom Art", KingdomName::Cascade));
         moons[lake27].add_prereq_kingdom(KingdomName::Lake);
         moons[lake27].add_prereq_kingdom_count(KingdomName::Cascade, 2);
+        let dark15 = moons.len();
+        moons.push(Moon::new("Found with Dark Side Art 1", KingdomName::Cascade));
+        moons[dark15].add_prereq_kingdom(KingdomName::Dark);
         offset.push((cascade1, moons.len()));
 
         // sand kingdom
@@ -679,6 +682,9 @@ impl Moons {
         let metro53 = moons.len();
         moons.push(Moon::new("Found With Metro Kingdom Art", KingdomName::Lake));
         moons[metro53].add_prereq_kingdom(KingdomName::Metro);
+        let dark23 = moons.len();
+        moons.push(Moon::new("Found with Dark Side Art 9", KingdomName::Lake));
+        moons[dark23].add_prereq_kingdom(KingdomName::Dark);
         offset.push((lake1, moons.len()));
 
         // wooded kingdom
@@ -908,6 +914,9 @@ impl Moons {
         let cloud9 = moons.len();
         moons.push(Moon::new("The Sixth Face", KingdomName::Cloud));
         moons[cloud9].add_prereq_kingdom(KingdomName::Mushroom);
+        let dark18 = moons.len();
+        moons.push(Moon::new("Found with Dark Side Art 4", KingdomName::Cloud));
+        moons[dark18].add_prereq_kingdom(KingdomName::Dark);
         offset.push((cloud1, moons.len()));
 
         // lost kingdom
@@ -983,6 +992,9 @@ impl Moons {
         let snow34 = moons.len();
         moons.push(Moon::new("Found with Snow Kingdom Art", KingdomName::Lost));
         moons[snow34].add_prereq_kingdom(KingdomName::Snow);
+        let dark21 = moons.len();
+        moons.push(Moon::new("Found with Dark Side Art 7", KingdomName::Lost));
+        moons[dark21].add_prereq_kingdom(KingdomName::Dark);
         offset.push((lost1, moons.len()));
 
         // metro kingdom
@@ -1237,6 +1249,9 @@ impl Moons {
         let seaside50 = moons.len();
         moons.push(Moon::new("Found with Seaside Kingdom Art", KingdomName::Metro));
         moons[seaside50].add_prereq_kingdom(KingdomName::Seaside);
+        let dark16 = moons.len();
+        moons.push(Moon::new("Found with Dark Side Art 2", KingdomName::Metro));
+        moons[dark16].add_prereq_kingdom(KingdomName::Dark);
         offset.push((metro1, moons.len()));
 
         // snow kingdom
@@ -1393,6 +1408,9 @@ impl Moons {
         let snow55 = moons.len();
         moons.push(Moon::new("Looking Back on the Flower Road", KingdomName::Snow));
         moons[snow55].add_prereq_kingdom(KingdomName::Mushroom);
+        let dark19 = moons.len();
+        moons.push(Moon::new("Found with Dark Side Art 5", KingdomName::Snow));
+        moons[dark19].add_prereq_kingdom(KingdomName::Dark);
         offset.push((snow1, moons.len()));
 
         // seaside kingdom
@@ -1559,6 +1577,9 @@ impl Moons {
         let luncheon49 = moons.len();
         moons.push(Moon::new("Found with Luncheon Kingdom Art", KingdomName::Seaside));
         moons[luncheon49].add_prereq_kingdom(KingdomName::Luncheon);
+        let dark20 = moons.len();
+        moons.push(Moon::new("Found with Dark Side Art 6", KingdomName::Seaside));
+        moons[dark20].add_prereq_kingdom(KingdomName::Dark);
         offset.push((seaside1, moons.len()));
 
         // luncheon kingdom
@@ -1764,6 +1785,9 @@ impl Moons {
         let luncheon68 = moons.len();
         moons.push(Moon::new("Flying Over the Lava Islands", KingdomName::Luncheon));
         moons[luncheon68].add_prereq_kingdom(KingdomName::Mushroom);
+        let dark22 = moons.len();
+        moons.push(Moon::new("Found with Dark Side Art 8", KingdomName::Luncheon));
+        moons[dark22].add_prereq_kingdom(KingdomName::Dark);
         offset.push((luncheon1, moons.len()));
 
         // ruined kingdom
@@ -1796,6 +1820,9 @@ impl Moons {
         let ruined10 = moons.len();
         moons.push(Moon::new("The Mummy Army's Curse", KingdomName::Ruined));
         moons[ruined10].add_prereq_kingdom(KingdomName::Mushroom);
+        let dark24 = moons.len();
+        moons.push(Moon::new("Found with Dark Side Art 10", KingdomName::Ruined));
+        moons[dark24].add_prereq_kingdom(KingdomName::Dark);
         offset.push((ruined1, moons.len()));
 
         // bowser's kingdom
@@ -2673,10 +2700,64 @@ impl Moons {
         let mushroom104 = moons.len();
         moons.push(Moon::new("Fly, Cappy, Fly!", KingdomName::Mushroom));
         moons[mushroom104].add_prereq_moon(mushroom103);
+        let dark17 = moons.len();
+        moons.push(Moon::new("Found with Dark Side Art 3", KingdomName::Mushroom));
+        moons[dark17].add_prereq_kingdom(KingdomName::Dark);
         offset.push((mushroom1, moons.len()));
 
         // dark side
-        /*moons[mushroom80].add_prereq_moon(dark15);
+        let dark1 = moons.len();
+        moons.push(Moon::new_multi("Arrival at Rabbit Ridge!", KingdomName::Dark));
+        let dark2 = moons.len();
+        moons.push(Moon::new("Captain Toad on the Dark Side!", KingdomName::Dark));
+        moons[dark1].add_prereq_moon(dark2);
+        let dark3 = moons.len();
+        moons.push(Moon::new("Breakdown Road: Hurry!", KingdomName::Dark));
+        moons[dark3].add_prereq_moon(dark1);
+        let dark4 = moons.len();
+        moons.push(Moon::new("Breakdown Road: Final Challenge!", KingdomName::Dark));
+        moons[dark4].add_prereq_moon(dark1);
+        let dark5 = moons.len();
+        moons.push(Moon::new("Invisible Road: Rush!", KingdomName::Dark));
+        moons[dark5].add_prereq_moon(dark1);
+        let dark6 = moons.len();
+        moons.push(Moon::new("Invisible Road: Secret!", KingdomName::Dark));
+        moons[dark6].add_prereq_moon(dark1);
+        let dark7 = moons.len();
+        moons.push(Moon::new("Vanishing Road Rush", KingdomName::Dark));
+        moons[dark7].add_prereq_moon(dark1);
+        let dark8 = moons.len();
+        moons.push(Moon::new("Vanishing Road Challenge", KingdomName::Dark));
+        moons[dark8].add_prereq_moon(dark1);
+        let dark9 = moons.len();
+        moons.push(Moon::new("Yoshi Under Siege", KingdomName::Dark));
+        moons[dark9].add_prereq_moon(dark1);
+        let dark10 = moons.len();
+        moons.push(Moon::new("Fruit Feast Under Siege", KingdomName::Dark));
+        moons[dark10].add_prereq_moon(dark1);
+        let dark11 = moons.len();
+        moons.push(Moon::new("Yoshi on the Sinking Island", KingdomName::Dark));
+        moons[dark11].add_prereq_moon(dark1);
+        let dark12 = moons.len();
+        moons.push(Moon::new("Fruit Feast on the Sinking Island", KingdomName::Dark));
+        moons[dark12].add_prereq_moon(dark1);
+        let dark13 = moons.len();
+        moons.push(Moon::new("Yoshi's Magma Swamp", KingdomName::Dark));
+        moons[dark13].add_prereq_moon(dark1);
+        let dark14 = moons.len();
+        moons.push(Moon::new("Fruit Feast in the Magma Swamp!", KingdomName::Dark));
+        moons[dark14].add_prereq_moon(dark1);
+        moons[dark15].add_prereq_moon(dark1);
+        moons[dark16].add_prereq_moon(dark1);
+        moons[dark17].add_prereq_moon(dark1);
+        moons[dark18].add_prereq_moon(dark1);
+        moons[dark19].add_prereq_moon(dark1);
+        moons[dark20].add_prereq_moon(dark1);
+        moons[dark21].add_prereq_moon(dark1);
+        moons[dark22].add_prereq_moon(dark1);
+        moons[dark23].add_prereq_moon(dark1);
+        moons[dark24].add_prereq_moon(dark1);
+        moons[mushroom80].add_prereq_moon(dark15);
         moons[mushroom80].add_prereq_moon(dark16);
         moons[mushroom80].add_prereq_moon(dark17);
         moons[mushroom80].add_prereq_moon(dark18);
@@ -2685,8 +2766,8 @@ impl Moons {
         moons[mushroom80].add_prereq_moon(dark21);
         moons[mushroom80].add_prereq_moon(dark22);
         moons[mushroom80].add_prereq_moon(dark23);
-        moons[mushroom80].add_prereq_moon(dark24);*/
-        offset.push((0, 0));
+        moons[mushroom80].add_prereq_moon(dark24);
+        offset.push((dark1, moons.len()));
 
         // darker side
         offset.push((0, 0));
