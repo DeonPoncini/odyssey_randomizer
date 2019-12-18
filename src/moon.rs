@@ -2770,7 +2770,9 @@ impl Moons {
         offset.push((dark1, moons.len()));
 
         // darker side
-        offset.push((0, 0));
+        let darker1 = moons.len();
+        moons.push(Moon::new_multi("Long Journey's End", KingdomName::Darker));
+        offset.push((darker1, moons.len()));
 
         // setup the ids - initially monotonic
         let mut ids = Vec::new();
