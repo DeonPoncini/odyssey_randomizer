@@ -39,7 +39,7 @@ impl State {
     }
 
     pub fn print_moons(&self, kingdoms: &Kingdoms, moons: &Moons) {
-        let mut x = 0;
+        let mut x = 1;
         let mut current_kingdom = KingdomName::Cap;
         for m in &self.moons_ordered {
             if moons.moon(*m).kingdom() != current_kingdom {

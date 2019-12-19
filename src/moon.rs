@@ -628,8 +628,9 @@ impl Moons {
         moons.push(Moon::new("I Feel Underdressed", KingdomName::Lake));
         moons.push(Moon::new("Unzip the Chasm", KingdomName::Lake));
         moons.push(Moon::new("Super-Secret Zipper", KingdomName::Lake));
-        let lake25 = moons.len();
         moons.push(Moon::new("Jump, Grab, Cling, and Climb", KingdomName::Lake));
+        let lake25 = moons.len();
+        moons.push(Moon::new("Jump, Grab, and Climb Some More", KingdomName::Lake));
         let lake26 = moons.len();
         moons.push(Moon::new("Secret Path to Lake Lamode!", KingdomName::Lake));
         moons[lake27].add_prereq_moon(lake1);

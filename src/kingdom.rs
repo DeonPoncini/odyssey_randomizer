@@ -71,7 +71,6 @@ impl Kingdom {
     pub fn can_leave(&self, state: &State) -> bool {
         // can leave if the total kingdom moons are enough
         if state.total_kingdom_moons() < self.moons_to_leave {
-            println!("Total kingdom moons: {} to leave {}", state.total_kingdom_moons(), self.moons_to_leave);
             return false;
         }
         // can leave if the required moon ID has been scheduled
