@@ -2709,6 +2709,7 @@ impl Moons {
         // dark side
         let dark1 = moons.len();
         moons.push(Moon::new_multi("Arrival at Rabbit Ridge!", KingdomName::Dark));
+        kingdoms.kingdom_mut(KingdomName::Dark).set_exit_moon(dark1);
         let dark2 = moons.len();
         moons.push(Moon::new("Captain Toad on the Dark Side!", KingdomName::Dark));
         moons[dark1].add_prereq_moon(dark2);

@@ -42,7 +42,6 @@ fn main() {
         }
         if scheduled == 0 {
             state.next_kingdom(&kingdoms);
-
             // schedule the next kingdom
             if !state.schedule_kingdom() {
                 // no more moons and no more kingdoms, we are done
@@ -58,9 +57,9 @@ fn main() {
             if chance < leave_chance {
                 leave_chance = 1;
                 // leave for the next kingdom
-                state.next_kingdom(&kingdoms);
-                // this will do nothing if we don't have enough moons to leave
-                state.schedule_kingdom();
+                if state.next_kingdom(&kingdoms) {
+                    state.schedule_kingdom();
+                }
             } else {
                 leave_chance += 1;
             }

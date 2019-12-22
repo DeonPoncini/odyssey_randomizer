@@ -130,12 +130,12 @@ impl State {
         self.kingdoms_completed.insert(id);
     }
 
-    pub fn next_kingdom(&mut self, kingdoms: &Kingdoms) {
+    pub fn next_kingdom(&mut self, kingdoms: &Kingdoms) -> bool {
         // move to the next kingdom
         if self.completed_main_game {
-            if self.total_kingdom_moons() < 1 {
-                // we can't leave yet
-                return;
+            if !kingdoms.kingdom(self.current_kingdom).can_leave(&self) {
+                // can't leave yet
+                return false;
             }
             // add every kingdom that isn't this one
             self.add_kingdom_to_schedule(KingdomName::Cap);
@@ -162,7 +162,7 @@ impl State {
         } else {
             if !kingdoms.kingdom(self.current_kingdom).can_leave(&self) {
                 // can't leave yet
-                return;
+                return false;
             }
             for k in kingdoms.kingdom(self.current_kingdom).next() {
                 if kingdoms.kingdom(*k).available(&self) {
@@ -170,6 +170,7 @@ impl State {
                 }
             }
         }
+        true
     }
 
     pub fn add_moon_to_schedule(&mut self, id: MoonID) {
